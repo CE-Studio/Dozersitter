@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DozerAI : MonoBehaviour {
-    string dozerState;
+    public static string dozerState;
+    //What the dozer is doing. Can be these values:
     // Idle ---- Ready for a command
     // Wait ---- Waiting around for a bit
     // Turn ---- Turning at a set speed to a random direction
     // Move ---- Moving at a set speed for a random time
-    // Box ----- Sttaches itself to the closest box, marking it off a global list as chosen, to move to and push for a certain amount of time
+    // Box ----- Attaches itself to the closest box, marking it off a global list as chosen, to move to and push for a certain amount of time
     //           Once the time is up, it will move on. To ensure it doesn't get stuck pushing the same box, it keeps the box as marked as used until it finds a new box to push
     //           It will also have a box cooldown timer so that it won't automatically gravitate to any and all boxes it drives near
     // Inspect - Driving to and looking at the player
     // Reverse - Backing up away from a wall
+    // NewMove - Reviseed movement with actual AI
+
+    public static string dozerMood = "Neutral"; 
+    //The dozer's current mood, mostly cosmetic but is what is used to find the score. Can be these values, best to worst:
+    // Excited
+    // Happy
+    // Neutral
+    // Unhappy
+    // Angry
+
     int randomInt;
     int waitWeight;
     int turnWeight;
