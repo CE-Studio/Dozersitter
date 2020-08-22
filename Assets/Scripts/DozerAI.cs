@@ -60,7 +60,7 @@ public class DozerAI : MonoBehaviour {
                         targPosX = Random.Range(-15f, 15f);
                         targPosZ = Random.Range(-25f, 25f);
                         dozerState = "NewMove";
-                        print(targPosX);
+                        //print(targPosX);
                     }
                 } else {
                     dozerState = "Inspect";
@@ -68,7 +68,7 @@ public class DozerAI : MonoBehaviour {
                 break;
             case "Wait":
                 randomInt--;
-                print("Dozer is waiting for another " + randomInt + " ticks.");
+                //print("Dozer is waiting for another " + randomInt + " ticks.");
                 break;
             case "Turn":
                 if (turnDirection == 1) {
@@ -78,12 +78,12 @@ public class DozerAI : MonoBehaviour {
                     transform.Rotate(Vector3.up, -speed * 5 * Time.deltaTime);
                 }
                 randomInt--;
-                print("Dozer is turning for another " + randomInt + " ticks.");
+                //print("Dozer is turning for another " + randomInt + " ticks.");
                 break;
             case "Move":
                 rb.AddForce(transform.forward * speed, ForceMode.Force);
                 randomInt--;
-                print("Dozer is moving for another " + randomInt + " ticks.");
+                //print("Dozer is moving for another " + randomInt + " ticks.");
                 break;
             case "Inspect":
                 dozerState = "Idle";
@@ -91,7 +91,7 @@ public class DozerAI : MonoBehaviour {
             case "Reverse":
                 rb.AddForce(transform.forward * -speed, ForceMode.Force);
                 randomInt--;
-                print("Dozer is reversing for another " + randomInt + " ticks.");
+                //print("Dozer is reversing for another " + randomInt + " ticks.");
                 break;
             case "NewMove":
                 Quaternion OriginalRot = transform.rotation;
