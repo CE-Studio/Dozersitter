@@ -32,6 +32,8 @@ public class DozerAI : MonoBehaviour {
     Transform wheelRR;
     Transform wheelLF;
     Transform wheelLR;
+    Quaternion OriginalRot;
+    Quaternion NewRot;
 
     void Start() {
         dozerState = "Wait";
@@ -103,7 +105,27 @@ public class DozerAI : MonoBehaviour {
                 //print("Dozer is moving for another " + randomInt + " ticks.");
                 break;
             case "Inspect":
-                dozerState = "Idle";
+
+                targPosX = PlayerMovement.pos.x;
+                targPosZ = PlayerMovement.pos.z;
+
+                OriginalRot = transform.rotation;
+                transform.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                NewRot = transform.rotation;
+                transform.rotation = OriginalRot;
+                transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
+
+                if (2f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
+                    rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
+
+                    camPan.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                    camLift.LookAt(new Vector3(targPosX, 2f, targPosZ));
+
+                    Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
+                    Debug.DrawLine(camLift.position, new Vector3(targPosX, 2, targPosZ));
+                } else {
+                    randomInt--;
+                }
                 break;
             case "Reverse":
                 rb.AddForce(transform.forward * -speed, ForceMode.Force);
@@ -111,9 +133,9 @@ public class DozerAI : MonoBehaviour {
                 //print("Dozer is reversing for another " + randomInt + " ticks.");
                 break;
             case "NewMove":
-                Quaternion OriginalRot = transform.rotation;
+                OriginalRot = transform.rotation;
                 transform.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
-                Quaternion NewRot = transform.rotation;
+                NewRot = transform.rotation;
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
 

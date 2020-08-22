@@ -14,11 +14,15 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    public static Vector3 pos;
+
     Vector3 velocity;
     bool isGrounded;
 
     void Update()
     {
+        pos = transform.position;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
