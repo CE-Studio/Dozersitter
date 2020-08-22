@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    int thisBox;
+    public int thisBox;
 
     void Start()
     {

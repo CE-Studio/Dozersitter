@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DozerAI : MonoBehaviour {
-    public static string dozerState;
+    public string dozerState;
     //What the dozer is doing. Can be these values:
     // Idle ---- Ready for a command
     // Wait ---- Waiting around for a bit
@@ -16,7 +16,7 @@ public class DozerAI : MonoBehaviour {
     // Reverse - Backing up away from a wall
     // NewMove - Reviseed movement with actual AI
 
-    public static string dozerMood = "Neutral"; 
+    public string dozerMood = "Neutral"; 
     //The dozer's current mood, mostly cosmetic but is what is used to find the score. Can be these values, best to worst:
     // Excited
     // Happy
@@ -45,6 +45,11 @@ public class DozerAI : MonoBehaviour {
     Transform wheelLR;
     Quaternion OriginalRot;
     Quaternion NewRot;
+    Transform currentBox;
+    Collider boxFinder;
+    int boxPushTimer;
+    int boxCooldownTimer;
+    Vector3 boxPos;
 
     void Start() {
         dozerState = "Wait";
@@ -61,12 +66,17 @@ public class DozerAI : MonoBehaviour {
         wheelLR = this.gameObject.transform.GetChild(0).GetChild(5);
         wheelRF = this.gameObject.transform.GetChild(0).GetChild(6);
         wheelRR = this.gameObject.transform.GetChild(0).GetChild(7);
+        boxFinder = GetComponent<CapsuleCollider>();
     }
 
     void FixedUpdate() {
         if ((rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) && legacyAI) {
             dozerState = "Reverse";
             randomInt = 20;
+        }
+        else if (boxPos.x != 0 && boxPos.y != 0 && boxPos.z != 0)
+        {
+
         }
         if (randomInt <= 0) {
             dozerState = "Idle";
@@ -185,5 +195,23 @@ public class DozerAI : MonoBehaviour {
         lastRot = transform.eulerAngles;
         
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Box"))
+        {
+            GameObject boxObj = other.gameObject;
+            Transform boxTrans = boxObj.transform;
+            boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Box"))
+        {
+            boxPos = new Vector3(0, 0, 0);
+        }
     }
 }
