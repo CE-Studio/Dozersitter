@@ -40,18 +40,18 @@ public class DozerAI : MonoBehaviour
                 if (randomInt <= waitWeight)
                 {
                     dozerState = "Wait";
-                    randomInt = Random.Range(25, 100);
+                    randomInt = Random.Range(25, 75);
                 }
                 else if (randomInt > waitWeight && randomInt <= waitWeight + turnWeight)
                 {
                     dozerState = "Turn";
-                    randomInt = Random.Range(25, 750);
+                    randomInt = Random.Range(25, 75);
                     turnDirection = Random.Range(1, 3);
                 }
                 else if (randomInt > waitWeight + turnWeight && randomInt <= waitWeight + turnWeight + moveWeight)
                 {
                     dozerState = "Move";
-                    randomInt = Random.Range(25, 750);
+                    randomInt = Random.Range(25, 75);
                 }
                 else
                 {
