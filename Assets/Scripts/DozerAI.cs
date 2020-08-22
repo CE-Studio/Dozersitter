@@ -19,6 +19,7 @@ public class DozerAI : MonoBehaviour
     int moveWeight;
     float speed = 10f;
     Rigidbody rb;
+    int turnDirection;
     
     void Start()
     {
@@ -39,17 +40,18 @@ public class DozerAI : MonoBehaviour
                 if (randomInt <= waitWeight)
                 {
                     dozerState = "Wait";
-                    randomInt = Random.Range(10, 30);
+                    randomInt = Random.Range(25, 100);
                 }
                 else if (randomInt > waitWeight && randomInt <= waitWeight + turnWeight)
                 {
                     dozerState = "Turn";
-                    randomInt = Random.Range(-180, 180);
+                    randomInt = Random.Range(25, 750);
+                    turnDirection = Random.Range(1, 3);
                 }
                 else if (randomInt > waitWeight + turnWeight && randomInt <= waitWeight + turnWeight + moveWeight)
                 {
                     dozerState = "Move";
-                    randomInt = Random.Range(10, 40);
+                    randomInt = Random.Range(25, 750);
                 }
                 else
                 {
@@ -58,33 +60,37 @@ public class DozerAI : MonoBehaviour
                 break;
             case "Wait":
                 randomInt--;
-                if (randomInt >= 0)
+                if (randomInt <= 0)
                 {
                     dozerState = "Idle";
                 }
+                print("Dozer is waiting. Waiting for " + randomInt + " more calls.");
                 break;
             case "Turn":
-                if (transform.rotation.y > randomInt)
+                if (turnDirection == 1)
                 {
-                    transform.Rotate(Vector3.up, -speed * Time.deltaTime);
+                    transform.Rotate(Vector3.up, speed * 5 * Time.deltaTime);
                 }
-                else if (transform.rotation.y < randomInt)
+                else if (turnDirection == 2)
                 {
-                    transform.Rotate(Vector3.up, speed * Time.deltaTime);
+                    transform.Rotate(Vector3.up, -speed * 5 * Time.deltaTime);
                 }
-                else if (transform.rotation.y >= randomInt + 3 && transform.rotation.y <= randomInt - 3)
+                randomInt--;
+                if (randomInt <= 0)
                 {
                     dozerState = "Idle";
                 }
+                print("Dozer is turning for another " + randomInt + " calls.");
                 break;
             case "Move":
-                Vector3 movement = transform.forward * speed * Time.deltaTime;
-                rb.MovePosition(movement);
+                Vector3 movement = transform.forward * speed / 2 * Time.deltaTime;
+                rb.position += movement;
                 randomInt--;
-                if (randomInt >= 0)
+                if (randomInt <= 0)
                 {
                     dozerState = "Idle";
                 }
+                print("Dozer is moving for another " + randomInt + " more calls.");
                 break;
             case "Inspect":
                 dozerState = "Idle";
