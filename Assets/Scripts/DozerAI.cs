@@ -51,6 +51,7 @@ public class DozerAI : MonoBehaviour {
     int boxCooldownTimer;
     bool pushingBox;
     Vector3 boxPos;
+    public Animator animator;
 
     void Start() {
         dozerState = "Wait";
@@ -68,6 +69,7 @@ public class DozerAI : MonoBehaviour {
         wheelRF = this.gameObject.transform.GetChild(0).GetChild(6);
         wheelRR = this.gameObject.transform.GetChild(0).GetChild(7);
         boxFinder = GetComponent<CapsuleCollider>();
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate() {
@@ -84,6 +86,7 @@ public class DozerAI : MonoBehaviour {
         }
         switch (dozerState) {
             case "Idle":
+                animator.SetInteger("Mood", 0);
                 randomInt = Random.Range(1, 100);
                 if (randomInt <= waitWeight) {
                     dozerState = "Wait";
@@ -147,6 +150,21 @@ public class DozerAI : MonoBehaviour {
                     Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
                     Debug.DrawLine(camLift.position, new Vector3(targPosX, 2, targPosZ));
                 } else {
+                    switch (dozerMood)
+                    {
+                        case "Excited":
+                            animator.SetInteger("Mood", 5);
+                            break;
+                        case "Happy":
+                            animator.SetInteger("Mood", 4);
+                            break;
+                        case "Unhappy":
+                            animator.SetInteger("Mood", 2);
+                            break;
+                        case "Angry":
+                            animator.SetInteger("Mood", 1);
+                            break;
+                    }
                     randomInt--;
                 }
                 break;

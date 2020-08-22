@@ -541,6 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dozerState: 
   dozerMood: Neutral
+  animator: {fileID: 414224692926380658}
 --- !u!54 &7172419943841090248
 Rigidbody:
   m_ObjectHideFlags: 0
