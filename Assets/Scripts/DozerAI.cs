@@ -64,7 +64,7 @@ public class DozerAI : MonoBehaviour
                 {
                     dozerState = "Idle";
                 }
-                print("Dozer is waiting. Waiting for " + randomInt + " more calls.");
+                print("Dozer is waiting for another " + randomInt + " ticks.");
                 break;
             case "Turn":
                 if (turnDirection == 1)
@@ -80,16 +80,16 @@ public class DozerAI : MonoBehaviour
                 {
                     dozerState = "Idle";
                 }
-                print("Dozer is turning for another " + randomInt + " calls.");
+                print("Dozer is turning for another " + randomInt + " ticks.");
                 break;
             case "Move":
-                rb.AddForce(transform.up * (speed * 100), ForceMode.Force);
+                rb.AddForce(transform.forward * (speed), ForceMode.Force);
                 randomInt--;
                 if (randomInt <= 0)
                 {
                     dozerState = "Idle";
                 }
-                print("Dozer is moving for another " + randomInt + " more calls.");
+                print("Dozer is moving for another " + randomInt + " ticks.");
                 break;
             case "Inspect":
                 dozerState = "Idle";
