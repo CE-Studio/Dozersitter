@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DozerAI : MonoBehaviour
-{
+public class DozerAI : MonoBehaviour {
     string dozerState;
     // Idle ---- Ready for a command
     // Wait ---- Waiting around for a bit
@@ -18,12 +17,14 @@ public class DozerAI : MonoBehaviour
     int waitWeight;
     int turnWeight;
     int moveWeight;
+    float targPosX = 0;
+    float targPosZ = 0;
     float speed = 10f;
     Rigidbody rb;
     int turnDirection;
+    public static bool legacyAI = false;
     
-    void Start()
-    {
+    void Start() {
         dozerState = "Wait";
         randomInt = Random.Range(1, 30);
         waitWeight = Random.Range(25, 40);
@@ -32,58 +33,52 @@ public class DozerAI : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
-    {
-        if (rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24)
-        {
+    void FixedUpdate() {
+        if (rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) {
             dozerState = "Reverse";
             randomInt = 20;
         }
-        switch (dozerState)
-        {
+        switch (dozerState) {
             case "Idle":
                 randomInt = Random.Range(1, 100);
-                if (randomInt <= waitWeight)
-                {
+                if (randomInt <= waitWeight) {
                     dozerState = "Wait";
                     randomInt = Random.Range(25, 75);
-                }
-                else if (randomInt > waitWeight && randomInt <= waitWeight + turnWeight)
-                {
+                } else if (randomInt > waitWeight && randomInt <= waitWeight + turnWeight) {
                     dozerState = "Turn";
                     randomInt = Random.Range(25, 75);
                     turnDirection = Random.Range(1, 3);
-                }
-                else if (randomInt > waitWeight + turnWeight && randomInt <= waitWeight + turnWeight + moveWeight)
-                {
-                    dozerState = "Move";
-                    randomInt = Random.Range(25, 75);
-                }
-                else
-                {
+                } else if (randomInt > waitWeight + turnWeight && randomInt <= waitWeight + turnWeight + moveWeight) {
+                    if (legacyAI) {
+                        dozerState = "Move";
+                        randomInt = Random.Range(25, 75);
+                    } else {
+                        randomInt = 20;
+                        targPosX = Random.Range(-15f, 15f);
+                        targPosZ = Random.Range(-25f, 25f);
+                        dozerState = "NewMove";
+                        print(targPosX);
+                    }
+                } else {
                     dozerState = "Inspect";
                 }
                 break;
             case "Wait":
                 randomInt--;
-                if (randomInt <= 0)
-                {
+                if (randomInt <= 0) {
                     dozerState = "Idle";
                 }
                 print("Dozer is waiting for another " + randomInt + " ticks.");
                 break;
             case "Turn":
-                if (turnDirection == 1)
-                {
+                if (turnDirection == 1) {
                     transform.Rotate(Vector3.up, speed * 5 * Time.deltaTime);
                 }
-                else if (turnDirection == 2)
-                {
+                else if (turnDirection == 2) {
                     transform.Rotate(Vector3.up, -speed * 5 * Time.deltaTime);
                 }
                 randomInt--;
-                if (randomInt <= 0)
-                {
+                if (randomInt <= 0) {
                     dozerState = "Idle";
                 }
                 print("Dozer is turning for another " + randomInt + " ticks.");
@@ -91,8 +86,7 @@ public class DozerAI : MonoBehaviour
             case "Move":
                 rb.AddForce(transform.forward * speed, ForceMode.Force);
                 randomInt--;
-                if (randomInt <= 0)
-                {
+                if (randomInt <= 0) {
                     dozerState = "Idle";
                 }
                 print("Dozer is moving for another " + randomInt + " ticks.");
@@ -103,8 +97,7 @@ public class DozerAI : MonoBehaviour
             case "Reverse":
                 rb.AddForce(transform.forward * -speed, ForceMode.Force);
                 randomInt--;
-                if (randomInt <= 0)
-                {
+                if (randomInt <= 0) {
                     dozerState = "Idle";
                 }
                 print("Dozer is reversing for another " + randomInt + " ticks.");
