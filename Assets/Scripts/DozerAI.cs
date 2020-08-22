@@ -51,7 +51,7 @@ public class DozerAI : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) {
+        if ((rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) && legacyAI) {
             dozerState = "Reverse";
             randomInt = 20;
         }
@@ -118,7 +118,7 @@ public class DozerAI : MonoBehaviour {
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
 
                 if (1f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
-                    rb.AddForce(transform.forward * speed, ForceMode.Force);
+                    rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
 
                     camPan.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
                     camLift.LookAt(new Vector3(targPosX, 0f, targPosZ));
