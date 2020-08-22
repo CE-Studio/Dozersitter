@@ -23,7 +23,7 @@ public class DozerAI : MonoBehaviour
     
     void Start()
     {
-        dozerState = "Idle";
+        dozerState = "Wait";
         randomInt = Random.Range(1, 30);
         waitWeight = Random.Range(25, 40);
         turnWeight = Random.Range(20, 30);
@@ -31,7 +31,7 @@ public class DozerAI : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         switch (dozerState)
         {
@@ -83,8 +83,7 @@ public class DozerAI : MonoBehaviour
                 print("Dozer is turning for another " + randomInt + " calls.");
                 break;
             case "Move":
-                Vector3 movement = transform.forward * speed / 2 * Time.deltaTime;
-                rb.position += movement;
+                rb.AddForce(transform.up * (speed * 100), ForceMode.Force);
                 randomInt--;
                 if (randomInt <= 0)
                 {
