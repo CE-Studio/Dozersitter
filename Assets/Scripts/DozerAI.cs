@@ -13,6 +13,7 @@ public class DozerAI : MonoBehaviour
     //           Once the time is up, it will move on. To ensure it doesn't get stuck pushing the same box, it keeps the box as marked as used until it finds a new box to push
     //           It will also have a box cooldown timer so that it won't automatically gravitate to any and all boxes it drives near
     // Inspect - Driving to and looking at the player
+    // Reverse - Backing up away from a wall
     int randomInt;
     int waitWeight;
     int turnWeight;
@@ -33,6 +34,11 @@ public class DozerAI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24)
+        {
+            dozerState = "Reverse";
+            randomInt = 20;
+        }
         switch (dozerState)
         {
             case "Idle":
@@ -83,7 +89,7 @@ public class DozerAI : MonoBehaviour
                 print("Dozer is turning for another " + randomInt + " ticks.");
                 break;
             case "Move":
-                rb.AddForce(transform.forward * (speed), ForceMode.Force);
+                rb.AddForce(transform.forward * speed, ForceMode.Force);
                 randomInt--;
                 if (randomInt <= 0)
                 {
@@ -93,6 +99,15 @@ public class DozerAI : MonoBehaviour
                 break;
             case "Inspect":
                 dozerState = "Idle";
+                break;
+            case "Reverse":
+                rb.AddForce(transform.forward * -speed, ForceMode.Force);
+                randomInt--;
+                if (randomInt <= 0)
+                {
+                    dozerState = "Idle";
+                }
+                print("Dozer is reversing for another " + randomInt + " ticks.");
                 break;
         }
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
