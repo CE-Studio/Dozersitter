@@ -19,8 +19,7 @@ public class DozerAI : MonoBehaviour {
     int moveWeight;
     float targPosX = 0;
     float targPosZ = 0;
-    float speed = 10f;
-    float targRot;
+    float speed = 6f;
     Rigidbody rb;
     int turnDirection;
     public static bool legacyAI = false;
@@ -38,6 +37,9 @@ public class DozerAI : MonoBehaviour {
         if (rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) {
             dozerState = "Reverse";
             randomInt = 20;
+        }
+        if (randomInt <= 0) {
+            dozerState = "Idle";
         }
         switch (dozerState) {
             case "Idle":
@@ -66,9 +68,6 @@ public class DozerAI : MonoBehaviour {
                 break;
             case "Wait":
                 randomInt--;
-                if (randomInt <= 0) {
-                    dozerState = "Idle";
-                }
                 print("Dozer is waiting for another " + randomInt + " ticks.");
                 break;
             case "Turn":
@@ -79,17 +78,11 @@ public class DozerAI : MonoBehaviour {
                     transform.Rotate(Vector3.up, -speed * 5 * Time.deltaTime);
                 }
                 randomInt--;
-                if (randomInt <= 0) {
-                    dozerState = "Idle";
-                }
                 print("Dozer is turning for another " + randomInt + " ticks.");
                 break;
             case "Move":
                 rb.AddForce(transform.forward * speed, ForceMode.Force);
                 randomInt--;
-                if (randomInt <= 0) {
-                    dozerState = "Idle";
-                }
                 print("Dozer is moving for another " + randomInt + " ticks.");
                 break;
             case "Inspect":
@@ -98,13 +91,22 @@ public class DozerAI : MonoBehaviour {
             case "Reverse":
                 rb.AddForce(transform.forward * -speed, ForceMode.Force);
                 randomInt--;
-                if (randomInt <= 0) {
-                    dozerState = "Idle";
-                }
                 print("Dozer is reversing for another " + randomInt + " ticks.");
                 break;
             case "NewMove":
-                targRot = Mathf.Atan((targPosZ - transform.position.z) / (targPosX - transform.position.x));
+                Quaternion OriginalRot = transform.rotation;
+                transform.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                Quaternion NewRot = transform.rotation;
+                transform.rotation = OriginalRot;
+                transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
+
+                if (5f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
+                    rb.AddForce(transform.forward * speed, ForceMode.Force);
+                    Debug.DrawLine(transform.position, new Vector3(targPosX, 1, targPosZ));
+                } else {
+                    randomInt--;
+                }
+
                 break;
         }
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
