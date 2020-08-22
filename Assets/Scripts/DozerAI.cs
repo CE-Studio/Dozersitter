@@ -20,6 +20,7 @@ public class DozerAI : MonoBehaviour {
     float targPosX = 0;
     float targPosZ = 0;
     float speed = 10f;
+    float targRot;
     Rigidbody rb;
     int turnDirection;
     public static bool legacyAI = false;
@@ -101,6 +102,9 @@ public class DozerAI : MonoBehaviour {
                     dozerState = "Idle";
                 }
                 print("Dozer is reversing for another " + randomInt + " ticks.");
+                break;
+            case "NewMove":
+                targRot = Mathf.Atan((targPosZ - transform.position.z) / (targPosX - transform.position.x));
                 break;
         }
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
