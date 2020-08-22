@@ -23,7 +23,16 @@ public class DozerAI : MonoBehaviour {
     Rigidbody rb;
     int turnDirection;
     public static bool legacyAI = false;
-    
+    Vector3 lastPos;
+    Vector3 lastRot;
+    Transform eyes;
+    Transform camPan;
+    Transform camLift;
+    Transform wheelRF;
+    Transform wheelRR;
+    Transform wheelLF;
+    Transform wheelLR;
+
     void Start() {
         dozerState = "Wait";
         randomInt = Random.Range(1, 30);
@@ -31,6 +40,14 @@ public class DozerAI : MonoBehaviour {
         turnWeight = Random.Range(20, 30);
         moveWeight = Random.Range(20, 30);
         rb = GetComponent<Rigidbody>();
+
+        eyes = this.gameObject.transform.GetChild(0).GetChild(2);
+        camPan = this.gameObject.transform.GetChild(0).GetChild(1);
+        camLift = this.gameObject.transform.GetChild(0).GetChild(1).GetChild(0);
+        wheelLF = this.gameObject.transform.GetChild(0).GetChild(4);
+        wheelLR = this.gameObject.transform.GetChild(0).GetChild(5);
+        wheelRF = this.gameObject.transform.GetChild(0).GetChild(6);
+        wheelRR = this.gameObject.transform.GetChild(0).GetChild(7);
     }
 
     void FixedUpdate() {
@@ -100,15 +117,34 @@ public class DozerAI : MonoBehaviour {
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
 
-                if (5f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
+                if (1f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
                     rb.AddForce(transform.forward * speed, ForceMode.Force);
-                    Debug.DrawLine(transform.position, new Vector3(targPosX, 1, targPosZ));
+
+                    camPan.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                    camLift.LookAt(new Vector3(targPosX, 0f, targPosZ));
+
+                    Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
+                    Debug.DrawLine(camLift.position, new Vector3(targPosX, 0, targPosZ));
                 } else {
                     randomInt--;
                 }
 
                 break;
         }
+
+        float movement;
+        movement = Mathf.Sqrt(Mathf.Pow(lastPos.z - transform.position.z, 2f) + Mathf.Pow(lastPos.x - transform.position.x, 2));
+        float turnDist;
+        turnDist = transform.eulerAngles.y - lastRot.y;
+
+        wheelLF.Rotate(new Vector3(movement * 200, 0, 0));
+        wheelLR.Rotate(new Vector3(movement * 200, 0, 0));
+        wheelRF.Rotate(new Vector3(movement * 200, 0, 0));
+        wheelRR.Rotate(new Vector3(movement * 200, 0, 0));
+
+        lastPos = transform.position;
+        lastRot = transform.eulerAngles;
+        
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
     }
 }
