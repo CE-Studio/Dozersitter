@@ -13,6 +13,6 @@ public class scannerSpin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0, 500 * Time.deltaTime, 0));
+        transform.Rotate(new Vector3(0, 1000 * Time.deltaTime, 0));
     }
 }
