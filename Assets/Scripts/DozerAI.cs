@@ -83,6 +83,7 @@ public class DozerAI : MonoBehaviour {
                     }
                 } else {
                     dozerState = "Inspect";
+                    randomInt = 100;
                 }
                 break;
             case "Wait":
@@ -163,6 +164,11 @@ public class DozerAI : MonoBehaviour {
         wheelLR.Rotate(new Vector3(movement * 200, 0, 0));
         wheelRF.Rotate(new Vector3(movement * 200, 0, 0));
         wheelRR.Rotate(new Vector3(movement * 200, 0, 0));
+
+        wheelLF.Rotate(new Vector3(turnDist * 2, 0, 0));
+        wheelLR.Rotate(new Vector3(turnDist * 2, 0, 0));
+        wheelRF.Rotate(new Vector3(turnDist * -2, 0, 0));
+        wheelRR.Rotate(new Vector3(turnDist * -2, 0, 0));
 
         lastPos = transform.position;
         lastRot = transform.eulerAngles;
