@@ -9,8 +9,8 @@ public class DozerAI : MonoBehaviour {
     // Wait ---- Waiting around for a bit
     // Turn ---- Turning at a set speed to a random direction
     // Move ---- Moving at a set speed for a random time
-    // Box ----- Attaches itself to the closest box, marking it off a global list as chosen, to move to and push for a certain amount of time
-    //           Once the time is up, it will move on. To ensure it doesn't get stuck pushing the same box, it keeps the box as marked as used until it finds a new box to push
+    // Box ----- Attaches itself to the closest box to move to and push for a certain amount of time
+    //           Once the time is up, it will move on
     //           It will also have a box cooldown timer so that it won't automatically gravitate to any and all boxes it drives near
     // Inspect - Driving to and looking at the player
     // Reverse - Backing up away from a wall
@@ -46,9 +46,10 @@ public class DozerAI : MonoBehaviour {
     Quaternion OriginalRot;
     Quaternion NewRot;
     Transform currentBox;
-    Collider boxFinder;
-    int boxPushTimer;
+    CapsuleCollider boxFinder;
+    int boxPushTimer = 300;
     int boxCooldownTimer;
+    bool pushingBox;
     Vector3 boxPos;
 
     void Start() {
@@ -76,7 +77,7 @@ public class DozerAI : MonoBehaviour {
         }
         else if (boxPos.x != 0 && boxPos.y != 0 && boxPos.z != 0)
         {
-
+            dozerState = "Box";
         }
         if (randomInt <= 0) {
             dozerState = "Idle";
@@ -173,6 +174,42 @@ public class DozerAI : MonoBehaviour {
                     randomInt--;
                 }
 
+                break;
+            case "Box":
+                OriginalRot = transform.rotation;
+                transform.LookAt(new Vector3(boxPos.x, 0.5f, boxPos.z));
+                NewRot = transform.rotation;
+                transform.rotation = OriginalRot;
+                transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
+
+                if (1f < Mathf.Sqrt(Mathf.Pow(boxPos.z - transform.position.z, 2f) + Mathf.Pow(boxPos.x - transform.position.x, 2)))
+                {
+                    pushingBox = true;
+                }
+
+                if (pushingBox)
+                {
+                    boxPushTimer--;
+                }
+
+                if (boxPushTimer > 0)
+                {
+                    rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
+                
+                    camPan.LookAt(new Vector3(boxPos.x, 0.5f, boxPos.z));
+                    camLift.LookAt(new Vector3(boxPos.x, 0f, boxPos.z));
+                
+                    Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
+                    Debug.DrawLine(camLift.position, new Vector3(targPosX, 0, targPosZ));
+                }
+                else
+                {
+                    dozerState = "Idle";
+                    pushingBox = false;
+                    boxPushTimer = 300;
+                    boxCooldownTimer = 200;
+                    boxFinder.radius = 0.1f;
+                }
                 break;
         }
 
