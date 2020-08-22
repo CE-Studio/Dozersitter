@@ -182,18 +182,18 @@ public class DozerAI : MonoBehaviour {
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
 
-                if (1f < Mathf.Sqrt(Mathf.Pow(boxPos.z - transform.position.z, 2f) + Mathf.Pow(boxPos.x - transform.position.x, 2)))
-                {
+                targPosX = boxPos.x;
+                targPosZ = boxPos.z;
+
+                if (1f < Mathf.Sqrt(Mathf.Pow(boxPos.z - transform.position.z, 2f) + Mathf.Pow(boxPos.x - transform.position.x, 2))) {
                     pushingBox = true;
                 }
 
-                if (pushingBox)
-                {
+                if (pushingBox) {
                     boxPushTimer--;
                 }
 
-                if (boxPushTimer > 0)
-                {
+                if (boxPushTimer > 0) {
                     rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
                 
                     camPan.LookAt(new Vector3(boxPos.x, 0.5f, boxPos.z));
@@ -201,9 +201,7 @@ public class DozerAI : MonoBehaviour {
                 
                     Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
                     Debug.DrawLine(camLift.position, new Vector3(targPosX, 0, targPosZ));
-                }
-                else
-                {
+                } else {
                     dozerState = "Idle";
                     pushingBox = false;
                     boxPushTimer = 300;
