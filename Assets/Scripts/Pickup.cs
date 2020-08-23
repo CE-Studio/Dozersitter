@@ -9,6 +9,7 @@ public class Pickup : MonoBehaviour
     public static string mood = "Happy";
     bool clicked = true;
     public GameObject placepoint;
+    public Animator heldObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,9 +29,11 @@ public class Pickup : MonoBehaviour
                         lastGrabbed = "Dozer";
                         hit.collider.gameObject.transform.position = placepoint.transform.position;
                         isHolding = false;
+                        heldObject.SetInteger("DozerMood", 0);
                     } else if (hit.collider.gameObject.tag == "Box") {
                         lastGrabbed = "Box";
                         isHolding = false;
+                        heldObject.SetBool("CarryingBox", false);
                         hit.collider.gameObject.transform.position = placepoint.transform.position;
                     }
                 }
@@ -41,9 +44,28 @@ public class Pickup : MonoBehaviour
                         lastGrabbed = "Dozer";
                         hit.collider.gameObject.transform.position = new Vector3(-22.5f, 0.5f, 0.5f);
                         isHolding = true;
+                        switch (mood)
+                        {
+                            case "Excited":
+                                heldObject.SetInteger("DozerMood", 3);
+                                break;
+                            case "Happy":
+                                heldObject.SetInteger("DozerMood", 3);
+                                break;
+                            case "Neutral":
+                                heldObject.SetInteger("DozerMood", 2);
+                                break;
+                            case "Unhappy":
+                                heldObject.SetInteger("DozerMood", 1);
+                                break;
+                            case "Angry":
+                                heldObject.SetInteger("DozerMood", 1);
+                                break;
+                        }
                     } else if (hit.collider.gameObject.tag == "Box") {
                         lastGrabbed = "Box";
                         isHolding = true;
+                        heldObject.SetBool("CarryingBox", true);
                         hit.collider.gameObject.transform.position = new Vector3(-22.5f, 0.5f, 0.5f);
                     }
                 }

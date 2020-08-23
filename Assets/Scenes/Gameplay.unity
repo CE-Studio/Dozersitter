@@ -3233,6 +3233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placepoint: {fileID: 129609639}
+  heldObject: {fileID: 1241111918}
 --- !u!1 &2113097556
 GameObject:
   m_ObjectHideFlags: 0
