@@ -249,7 +249,7 @@ public class DozerAI : MonoBehaviour {
                     boxPushTimer = 500;
                     boxCooldownTimer = 100;
                     boxFinder.radius = 0.1f;
-                    //moodCounter = moodCounter - 400 * moodMultiplier;
+                    moodCounter = moodCounter - 400 * moodMultiplier;
                 }
 
                 if (boxPushTimer > 0) {
