@@ -55,6 +55,7 @@ public class DozerAI : MonoBehaviour {
     Vector3 boxPos;
     public Animator animator;
     bool seekingBox = true;
+    int boxPushChance;
 
     void Start() {
         dozerState = "Wait";
@@ -277,10 +278,32 @@ public class DozerAI : MonoBehaviour {
     {
         if (other.CompareTag("Box") && seekingBox)
         {
-            boxObj = other.gameObject;
-            boxTrans = boxObj.transform;
-            boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
-            seekingBox = false;
+            switch (dozerMood)
+            {
+                case "Excited":
+                    boxPushChance = Random.Range(1, 6);
+                    break;
+                case "Happy":
+                    boxPushChance = Random.Range(2, 6);
+                    break;
+                case "Neutral":
+                    boxPushChance = Random.Range(3, 6);
+                    break;
+                case "Unhappy":
+                    boxPushChance = Random.Range(4, 6);
+                    break;
+                case "Angry":
+                    boxPushChance = 5;
+                    break;
+            }
+
+            if (boxPushChance == 5)
+            {
+                boxObj = other.gameObject;
+                boxTrans = boxObj.transform;
+                boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
+                seekingBox = false;
+            }
         }
     }
 
