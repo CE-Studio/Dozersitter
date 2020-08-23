@@ -216,6 +216,14 @@ public class DozerAI : MonoBehaviour {
                     boxPushTimer--;
                 }
 
+                if (Vector3.Distance(boxPos, transform.position) > 6f) {
+                    dozerState = "Idle";
+                    pushingBox = false;
+                    boxPushTimer = 500;
+                    boxCooldownTimer = 100;
+                    boxFinder.radius = 0.1f;
+                }
+
                 if (boxPushTimer > 0) {
                     rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
                 
