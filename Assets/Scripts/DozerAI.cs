@@ -358,7 +358,7 @@ public class DozerAI : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Box"))
+        if (other.CompareTag("Box") && other.transform.position.x > boxPos.x - 0.25f && other.transform.position.x < boxPos.x + 0.25f && other.transform.position.z > boxPos.z - 0.25f && other.transform.position.z < boxPos.z + 0.25f)
         {
             boxPos = new Vector3(0, 0, 0);
             dozerState = "Idle";
