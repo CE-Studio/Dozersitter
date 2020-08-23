@@ -329,6 +329,11 @@ public class DozerAI : MonoBehaviour {
         if (other.CompareTag("Box"))
         {
             boxPos = new Vector3(0, 0, 0);
+            dozerState = "Idle";
+            pushingBox = false;
+            boxPushTimer = 500;
+            boxCooldownTimer = 200;
+            boxFinder.radius = 0.1f;
         }
     }
 }
