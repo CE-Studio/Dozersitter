@@ -140,7 +140,7 @@ public class DozerAI : MonoBehaviour {
                 targPosZ = PlayerMovement.pos.z;
 
                 OriginalRot = transform.rotation;
-                transform.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                transform.LookAt(new Vector3(targPosX, transform.position.y, targPosZ));
                 NewRot = transform.rotation;
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
@@ -179,7 +179,7 @@ public class DozerAI : MonoBehaviour {
                 break;
             case "NewMove":
                 OriginalRot = transform.rotation;
-                transform.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                transform.LookAt(new Vector3(targPosX, transform.position.y, targPosZ));
                 NewRot = transform.rotation;
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
@@ -199,7 +199,7 @@ public class DozerAI : MonoBehaviour {
                 break;
             case "Box":
                 OriginalRot = transform.rotation;
-                transform.LookAt(new Vector3(boxPos.x, 0.5f, boxPos.z));
+                transform.LookAt(new Vector3(boxPos.x, transform.position.y, boxPos.z));
                 NewRot = transform.rotation;
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
