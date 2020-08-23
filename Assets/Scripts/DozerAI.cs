@@ -48,12 +48,13 @@ public class DozerAI : MonoBehaviour {
     Transform currentBox;
     CapsuleCollider boxFinder;
     int boxPushTimer = 500;
-    int boxCooldownTimer;
+    int boxCooldownTimer = 500;
     bool pushingBox;
     GameObject boxObj;
     Transform boxTrans;
     Vector3 boxPos;
     public Animator animator;
+    bool seekingBox = true;
 
     void Start() {
         dozerState = "Wait";
@@ -232,6 +233,25 @@ public class DozerAI : MonoBehaviour {
                 break;
         }
 
+        if (!seekingBox && dozerState != "Box")
+        {
+            boxCooldownTimer--;
+            if (boxCooldownTimer <= 0)
+            {
+                boxCooldownTimer = 500;
+                seekingBox = true;
+            }
+        }
+
+        if (seekingBox)
+        {
+            boxFinder.radius += 0.05f;
+            if (boxFinder.radius > 5)
+            {
+                boxFinder.radius = 5;
+            }
+        }
+
         float movement;
         movement = Mathf.Sqrt(Mathf.Pow(lastPos.z - transform.position.z, 2f) + Mathf.Pow(lastPos.x - transform.position.x, 2));
         float turnDist;
@@ -255,11 +275,12 @@ public class DozerAI : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Box"))
+        if (other.CompareTag("Box") && seekingBox)
         {
             boxObj = other.gameObject;
             boxTrans = boxObj.transform;
             boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
+            seekingBox = false;
         }
     }
 
