@@ -14,7 +14,7 @@ public class DozerAI : MonoBehaviour {
     //           It will also have a box cooldown timer so that it won't automatically gravitate to any and all boxes it drives near
     // Inspect - Driving to and looking at the player
     // Reverse - Backing up away from a wall
-    // NewMove - Reviseed movement with actual AI
+    // NewMove - Revised movement with actual AI
 
     public string dozerMood = "Neutral"; 
     //The dozer's current mood, mostly cosmetic but is what is used to find the score. Can be these values, best to worst:
@@ -56,6 +56,8 @@ public class DozerAI : MonoBehaviour {
     public Animator animator;
     bool seekingBox = true;
     int boxPushChance;
+    public int moodCounter = 1000; // Min = 0, max = 2000. Each mood takes up 20% aka 400
+    public int moodMultiplier = 5;
 
     void Start() {
         dozerState = "Wait";
@@ -74,9 +76,34 @@ public class DozerAI : MonoBehaviour {
         wheelRR = this.gameObject.transform.GetChild(0).GetChild(7);
         boxFinder = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
+
+        moodCounter = 1000 * moodMultiplier;
     }
 
     void FixedUpdate() {
+        moodCounter--;
+        moodCounter = Mathf.Clamp(moodCounter, 0, 2000 * moodMultiplier);
+        if (moodCounter > 1600 * moodMultiplier)
+        {
+            dozerMood = "Excited";
+        }
+        else if (moodCounter > 1200 * moodMultiplier && moodCounter <= 1600 * moodMultiplier)
+        {
+            dozerMood = "Happy";
+        }
+        else if (moodCounter > 800 * moodMultiplier && moodCounter <= 1200 * moodMultiplier)
+        {
+            dozerMood = "Neutral";
+        }
+        else if (moodCounter > 400 * moodMultiplier && moodCounter <= 800 * moodMultiplier)
+        {
+            dozerMood = "Unhappy";
+        }
+        else if (moodCounter <= 400 * moodMultiplier)
+        {
+            dozerMood = "Angry";
+        }
+
         if ((rb.position.x > 14 || rb.position.x < -14 || rb.position.z > 24 || rb.position.z < -24) && legacyAI) {
             dozerState = "Reverse";
             randomInt = 20;
@@ -222,6 +249,7 @@ public class DozerAI : MonoBehaviour {
                     boxPushTimer = 500;
                     boxCooldownTimer = 100;
                     boxFinder.radius = 0.1f;
+                    //moodCounter = moodCounter - 400 * moodMultiplier;
                 }
 
                 if (boxPushTimer > 0) {
@@ -238,6 +266,7 @@ public class DozerAI : MonoBehaviour {
                     boxPushTimer = 500;
                     boxCooldownTimer = 200;
                     boxFinder.radius = 0.1f;
+                    moodCounter = moodCounter + 600 * moodMultiplier;
                 }
                 break;
         }
