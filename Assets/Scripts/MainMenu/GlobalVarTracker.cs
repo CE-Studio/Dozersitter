@@ -6,9 +6,4 @@ public class GlobalVarTracker : MonoBehaviour
 {
     public static float mouseSensitivity = 250;
     public static float volume = 50;
-
-    void Update()
-    {
-        print(mouseSensitivity);
-    }
 }
