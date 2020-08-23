@@ -1566,7 +1566,7 @@ PrefabInstance:
     - target: {fileID: 7172419943841090249, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
       propertyPath: dozerMood
-      value: Excited
+      value: Angry
       objectReference: {fileID: 0}
     - target: {fileID: 7172419943841090290, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
@@ -1640,7 +1640,7 @@ PrefabInstance:
     - target: {fileID: 7172419943841090249, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
       propertyPath: dozerMood
-      value: Excited
+      value: Unhappy
       objectReference: {fileID: 0}
     - target: {fileID: 7172419943841090290, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
@@ -2013,7 +2013,7 @@ PrefabInstance:
     - target: {fileID: 7172419943841090249, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
       propertyPath: dozerMood
-      value: Excited
+      value: Happy
       objectReference: {fileID: 0}
     - target: {fileID: 7172419943841090290, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
@@ -4126,7 +4126,7 @@ PrefabInstance:
     - target: {fileID: 7172419943841090249, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
       propertyPath: dozerMood
-      value: Excited
+      value: Neutral
       objectReference: {fileID: 0}
     - target: {fileID: 7172419943841090290, guid: 42f8593ce4b29f84b935b14e08183748,
         type: 3}
