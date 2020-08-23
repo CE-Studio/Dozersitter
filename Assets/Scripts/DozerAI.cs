@@ -145,11 +145,11 @@ public class DozerAI : MonoBehaviour {
                 transform.rotation = OriginalRot;
                 transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, speed * 0.3f * Time.deltaTime);
 
+                camPan.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
+                camLift.LookAt(new Vector3(targPosX, 2f, targPosZ));
+
                 if (2f < Mathf.Sqrt(Mathf.Pow(targPosZ - transform.position.z, 2f) + Mathf.Pow(targPosX - transform.position.x, 2))) {
                     rb.AddForce(transform.forward * ((speed * 2) / ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) + 0.1f)), ForceMode.Force);
-
-                    camPan.LookAt(new Vector3(targPosX, 0.5f, targPosZ));
-                    camLift.LookAt(new Vector3(targPosX, 2f, targPosZ));
 
                     Debug.DrawLine(transform.position, new Vector3(targPosX, 0, targPosZ));
                     Debug.DrawLine(camLift.position, new Vector3(targPosX, 2, targPosZ));
@@ -270,7 +270,16 @@ public class DozerAI : MonoBehaviour {
 
         lastPos = transform.position;
         lastRot = transform.eulerAngles;
-        
+
+        //0.747, -0.747
+        //5.904, 6.8
+        //-0.051, 0.137
+
+        camPan.Rotate(new Vector3(0, 180, 0));
+        print(camLift.localEulerAngles.x);
+        eyes.localPosition = new Vector3(Mathf.Lerp(-0.747f, 0.747f, Mathf.Clamp(camPan.localEulerAngles.y - 90f, 0, 180) / 180), Mathf.Lerp(5.904f, 6.8f, Mathf.Clamp(camLift.localEulerAngles.x - 90f, 0, 180) / 180), Mathf.Lerp(0.137f, -0.051f, Mathf.Clamp(camLift.localEulerAngles.x - 90f, 0, 180) / 180));
+        camPan.Rotate(new Vector3(0, -180, 0));
+
         //print("The dozer had a " + waitWeight + "% chance to wait, a " + turnWeight + "% chance to turn, and a " + moveWeight + "% chance to move. It chose to " + dozerState);
     }
 
