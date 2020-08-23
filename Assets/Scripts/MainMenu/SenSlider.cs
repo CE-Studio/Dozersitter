@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SenSlider : MonoBehaviour
 {
-    public void OnValueChange()
+    public void ChangeSensitivity(float newSen)
     {
-
+        GlobalVarTracker.mouseSensitivity = newSen;
     }
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GlobalVarTracker : MonoBehaviour
 {
-    public static int mouseSensitivity = 250;
-    public static int volume = 50;
+    public static float mouseSensitivity = 250;
+    public static float volume = 50;
+
+    void Update()
+    {
+        print(mouseSensitivity);
+    }
 }
