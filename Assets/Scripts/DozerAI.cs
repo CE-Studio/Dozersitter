@@ -324,23 +324,26 @@ public class DozerAI : MonoBehaviour {
     {
         if (other.CompareTag("Box") && seekingBox)
         {
-            switch (dozerMood)
+            if (boxPos.x == 0 && boxPos.y == 0 && boxPos.z == 0)
             {
-                case "Excited":
-                    boxPushChance = Random.Range(1, 6);
-                    break;
-                case "Happy":
-                    boxPushChance = Random.Range(2, 6);
-                    break;
-                case "Neutral":
-                    boxPushChance = Random.Range(3, 6);
-                    break;
-                case "Unhappy":
-                    boxPushChance = Random.Range(4, 6);
-                    break;
-                case "Angry":
-                    boxPushChance = 5;
-                    break;
+                switch (dozerMood)
+                {
+                    case "Excited":
+                        boxPushChance = Random.Range(1, 6);
+                        break;
+                    case "Happy":
+                        boxPushChance = Random.Range(2, 6);
+                        break;
+                    case "Neutral":
+                        boxPushChance = Random.Range(3, 6);
+                        break;
+                    case "Unhappy":
+                        boxPushChance = Random.Range(4, 6);
+                        break;
+                    case "Angry":
+                        boxPushChance = 5;
+                        break;
+                }
             }
 
             if (boxPushChance == 5)
