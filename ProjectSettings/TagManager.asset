@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dozer box detection collider
   - Box
+  - Dozer
   layers:
   - Default
   - TransparentFX

@@ -276,7 +276,7 @@ public class DozerAI : MonoBehaviour {
         //-0.051, 0.137
 
         camPan.Rotate(new Vector3(0, 180, 0));
-        print(camLift.localEulerAngles.x);
+        //print(camLift.localEulerAngles.x);
         eyes.localPosition = new Vector3(Mathf.Lerp(-0.747f, 0.747f, Mathf.Clamp(camPan.localEulerAngles.y - 90f, 0, 180) / 180), Mathf.Lerp(5.904f, 6.8f, Mathf.Clamp(camLift.localEulerAngles.x - 90f, 0, 180) / 180), Mathf.Lerp(0.137f, -0.051f, Mathf.Clamp(camLift.localEulerAngles.x - 90f, 0, 180) / 180));
         camPan.Rotate(new Vector3(0, -180, 0));
 
