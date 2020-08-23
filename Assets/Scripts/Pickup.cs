@@ -23,7 +23,7 @@ public class Pickup : MonoBehaviour
             clicked = false;
             RaycastHit hit;
             if (isHolding) {
-                if (Physics.Raycast(new Vector3(-22.5f, 3f, 0.5f), Vector3.down, out hit)) {
+                if (Physics.Raycast(new Vector3(-22.5f, 3f, 0.5f), Vector3.down, out hit, 5f)) {
                     if (hit.collider.gameObject.tag == "Dozer") {
                         mood = hit.collider.gameObject.GetComponent<DozerAI>().dozerMood;
                         lastGrabbed = "Dozer";
@@ -38,7 +38,7 @@ public class Pickup : MonoBehaviour
                     }
                 }
             } else {
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit)) {
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5f)) {
                     if (hit.collider.gameObject.tag == "Dozer") {
                         mood = hit.collider.gameObject.GetComponent<DozerAI>().dozerMood;
                         lastGrabbed = "Dozer";
