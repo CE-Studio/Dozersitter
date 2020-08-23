@@ -74,7 +74,7 @@ public class DozerAI : MonoBehaviour {
         wheelLR = this.gameObject.transform.GetChild(0).GetChild(5);
         wheelRF = this.gameObject.transform.GetChild(0).GetChild(6);
         wheelRR = this.gameObject.transform.GetChild(0).GetChild(7);
-        boxFinder = GetComponent<CapsuleCollider>();
+        boxFinder = transform.GetChild(1).GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
 
         moodCounter = 1000 * moodMultiplier;
