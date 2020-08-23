@@ -81,6 +81,11 @@ public class DozerAI : MonoBehaviour {
     }
 
     void FixedUpdate() {
+
+        if (transform.position.y < -5) {
+            transform.position = new Vector3(0, 5, 0);
+        }
+
         moodCounter--;
         moodCounter = Mathf.Clamp(moodCounter, 0, 2000 * moodMultiplier);
         if (moodCounter > 1600 * moodMultiplier)

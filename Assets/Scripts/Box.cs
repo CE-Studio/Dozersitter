@@ -15,6 +15,8 @@ public class Box : MonoBehaviour
 
     void Update()
     {
-        
+        if (transform.position.y < -5) {
+            transform.position = new Vector3(0, 5, 0);
+        }
     }
 }
