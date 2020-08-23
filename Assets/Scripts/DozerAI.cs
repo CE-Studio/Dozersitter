@@ -47,9 +47,11 @@ public class DozerAI : MonoBehaviour {
     Quaternion NewRot;
     Transform currentBox;
     CapsuleCollider boxFinder;
-    int boxPushTimer = 300;
+    int boxPushTimer = 500;
     int boxCooldownTimer;
     bool pushingBox;
+    GameObject boxObj;
+    Transform boxTrans;
     Vector3 boxPos;
     public Animator animator;
 
@@ -208,6 +210,7 @@ public class DozerAI : MonoBehaviour {
                 }
 
                 if (pushingBox) {
+                    boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
                     boxPushTimer--;
                 }
 
@@ -222,7 +225,7 @@ public class DozerAI : MonoBehaviour {
                 } else {
                     dozerState = "Idle";
                     pushingBox = false;
-                    boxPushTimer = 300;
+                    boxPushTimer = 500;
                     boxCooldownTimer = 200;
                     boxFinder.radius = 0.1f;
                 }
@@ -254,8 +257,8 @@ public class DozerAI : MonoBehaviour {
     {
         if (other.CompareTag("Box"))
         {
-            GameObject boxObj = other.gameObject;
-            Transform boxTrans = boxObj.transform;
+            boxObj = other.gameObject;
+            boxTrans = boxObj.transform;
             boxPos = new Vector3(boxTrans.position.x, boxTrans.position.y, boxTrans.position.z);
         }
     }
