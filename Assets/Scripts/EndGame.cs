@@ -16,7 +16,7 @@ public class EndGame : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GlobalVarTracker.endMoods.Contains(1) || GlobalVarTracker.endMoods.Contains(2) || GlobalVarTracker.endMoods.Contains(3) || GlobalVarTracker.endMoods.Contains(4) || GlobalVarTracker.endMoods.Contains(5))
+        if (gameEnded && (GlobalVarTracker.endMoods.Contains(1) || GlobalVarTracker.endMoods.Contains(2) || GlobalVarTracker.endMoods.Contains(3) || GlobalVarTracker.endMoods.Contains(4) || GlobalVarTracker.endMoods.Contains(5)))
         {
             countdown--;
             if (countdown <= 0)

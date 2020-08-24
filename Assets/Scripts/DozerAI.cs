@@ -59,6 +59,7 @@ public class DozerAI : MonoBehaviour {
     public int moodCounter = 1000; // Min = 0, max = 2000. Each mood takes up 20% aka 400
     public int moodMultiplier = 5;
     public static bool gameEnded;
+    bool submittedMood;
 
     void Start() {
         dozerState = "Wait";
@@ -83,7 +84,7 @@ public class DozerAI : MonoBehaviour {
 
     void FixedUpdate() {
 
-        if (gameEnded)
+        if (gameEnded && !submittedMood)
         {
             switch (dozerMood)
             {
@@ -103,6 +104,7 @@ public class DozerAI : MonoBehaviour {
                     GlobalVarTracker.endMoods.Add(1);
                     break;
             }
+            submittedMood = true;
         }
         
         if (transform.position.y < -5) {
