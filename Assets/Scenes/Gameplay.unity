@@ -4449,6 +4449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placepoint: {fileID: 129609639}
+  box: {fileID: 4200214258083909304, guid: 1c3aa039446a647428aabfa5958e5700, type: 3}
   heldObject: {fileID: 1241111918}
 --- !u!1 &2113097556
 GameObject:

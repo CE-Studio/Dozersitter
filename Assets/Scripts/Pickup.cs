@@ -9,6 +9,7 @@ public class Pickup : MonoBehaviour
     public static string mood = "Happy";
     bool clicked = true;
     public GameObject placepoint;
+    public GameObject box;
     public Animator heldObject;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,8 @@ public class Pickup : MonoBehaviour
                         isHolding = false;
                         heldObject.SetBool("CarryingBox", false);
                         hit.collider.gameObject.transform.position = placepoint.transform.position;
+                    } else if (hit.collider.gameObject.tag == "AddButton") {
+                        GameObject newBox = Instantiate(box, new Vector3(0, 0, 0), transform.rotation) as GameObject;
                     }
                 }
             } else {
