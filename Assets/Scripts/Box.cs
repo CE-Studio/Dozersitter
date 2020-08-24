@@ -28,6 +28,7 @@ public class Box : MonoBehaviour
         }
         if (durabillity == 0) {
             durabillity--;
+            Pickup.boxes--;
             GameObject broken = Instantiate(newBroken, transform.position, transform.rotation) as GameObject;
             transform.position = new Vector3(0, 200, 0);
             Destroy(gameObject, 3);

@@ -11,6 +11,7 @@ public class Pickup : MonoBehaviour
     public GameObject placepoint;
     public GameObject box;
     public Animator heldObject;
+    public static int boxes = 6;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,8 +69,9 @@ public class Pickup : MonoBehaviour
                         isHolding = true;
                         heldObject.SetBool("CarryingBox", true);
                         hit.collider.gameObject.transform.position = new Vector3(-22.5f, 0.5f, 0.5f);
-                    } else if (hit.collider.gameObject.tag == "AddButton") {
+                    } else if ((hit.collider.gameObject.tag == "AddButton") && (boxes < 12)) {
                         GameObject newBox = Instantiate(box, new Vector3(10.88f, 8, 23.94f), transform.rotation) as GameObject;
+                        boxes++;
                     }
                 }
             }
