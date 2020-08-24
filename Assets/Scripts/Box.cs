@@ -27,11 +27,15 @@ public class Box : MonoBehaviour
             durabillity--;
         }
         if (durabillity == 0) {
-            durabillity--;
-            Pickup.boxes--;
-            GameObject broken = Instantiate(newBroken, transform.position, transform.rotation) as GameObject;
-            transform.position = new Vector3(0, 200, 0);
-            Destroy(gameObject, 3);
+            if (Random.value > 0.5f) {
+                durabillity--;
+                Pickup.boxes--;
+                GameObject broken = Instantiate(newBroken, transform.position, transform.rotation) as GameObject;
+                transform.position = new Vector3(0, 200, 0);
+                Destroy(gameObject, 3);
+            } else {
+                durabillity += 10;
+            }
         }
     }
 }
