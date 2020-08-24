@@ -26,7 +26,8 @@ public class Box : MonoBehaviour
         if (collision.gameObject.tag == "Dozer") {
             durabillity--;
         }
-        if (durabillity < 0) {
+        if (durabillity == 0) {
+            durabillity--;
             GameObject broken = Instantiate(newBroken, transform.position, transform.rotation) as GameObject;
             transform.position = new Vector3(0, 200, 0);
             Destroy(gameObject, 3);
