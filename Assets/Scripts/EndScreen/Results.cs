@@ -49,7 +49,7 @@ public class Results : MonoBehaviour
         Neutral.text = ("" + neutral);
         Unhappy.text = ("" + unhappy);
         Angry.text = ("" + angry);
-        Final.text = ((excited + happy + neutral + unhappy + angry) + "/" + ((3 + 3 * GlobalVarTracker.difficulty) * 5));
+        Final.text = ((3 + 3 * GlobalVarTracker.difficulty + (excited * 2 + happy - unhappy - angry * 2)) + "/" + ((3 + 3 * GlobalVarTracker.difficulty) * 2));
     }
 
     public void ReturnToMainMenu()
