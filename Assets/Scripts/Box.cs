@@ -5,6 +5,8 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     public int thisBox;
+    public int durabillity = 5;
+    public GameObject newBroken;
 
     void Start()
     {
@@ -17,6 +19,17 @@ public class Box : MonoBehaviour
     {
         if (transform.position.y < -5) {
             transform.position = new Vector3(0, 5, 0);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Dozer") {
+            durabillity--;
+        }
+        if (durabillity < 0) {
+            GameObject broken = Instantiate(newBroken, transform.position, transform.rotation) as GameObject;
+            transform.position = new Vector3(0, 200, 0);
+            Destroy(gameObject, 3);
         }
     }
 }

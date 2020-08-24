@@ -124,3 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisBox: 0
+  durabillity: 5
+  newBroken: {fileID: 4114064535819747870, guid: 50fc1171ffde7a3429590210dae0b1d7,
+    type: 3}
