@@ -12,6 +12,7 @@ public class EndGame : MonoBehaviour
     {
         gameEnded = true;
         DozerAI.gameEnded = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void FixedUpdate()
