@@ -58,6 +58,7 @@ public class DozerAI : MonoBehaviour {
     int boxPushChance;
     public int moodCounter = 1000; // Min = 0, max = 2000. Each mood takes up 20% aka 400
     public int moodMultiplier = 5;
+    public static bool gameEnded;
 
     void Start() {
         dozerState = "Wait";
@@ -82,6 +83,28 @@ public class DozerAI : MonoBehaviour {
 
     void FixedUpdate() {
 
+        if (gameEnded)
+        {
+            switch (dozerMood)
+            {
+                case "Excited":
+                    GlobalVarTracker.endMoods.Add(5);
+                    break;
+                case "Happy":
+                    GlobalVarTracker.endMoods.Add(4);
+                    break;
+                case "Neutral":
+                    GlobalVarTracker.endMoods.Add(3);
+                    break;
+                case "Unhappy":
+                    GlobalVarTracker.endMoods.Add(2);
+                    break;
+                case "Angry":
+                    GlobalVarTracker.endMoods.Add(1);
+                    break;
+            }
+        }
+        
         if (transform.position.y < -5) {
             transform.position = new Vector3(0, 5, 0);
         }
