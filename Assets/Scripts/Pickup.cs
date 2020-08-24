@@ -36,9 +36,7 @@ public class Pickup : MonoBehaviour
                         isHolding = false;
                         heldObject.SetBool("CarryingBox", false);
                         hit.collider.gameObject.transform.position = placepoint.transform.position;
-                    } else if (hit.collider.gameObject.tag == "AddButton") {
-                        GameObject newBox = Instantiate(box, new Vector3(0, 0, 0), transform.rotation) as GameObject;
-                    }
+                    } 
                 }
             } else {
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5f)) {
@@ -70,6 +68,8 @@ public class Pickup : MonoBehaviour
                         isHolding = true;
                         heldObject.SetBool("CarryingBox", true);
                         hit.collider.gameObject.transform.position = new Vector3(-22.5f, 0.5f, 0.5f);
+                    } else if (hit.collider.gameObject.tag == "AddButton") {
+                        GameObject newBox = Instantiate(box, new Vector3(10.88f, 8, 23.94f), transform.rotation) as GameObject;
                     }
                 }
             }
