@@ -5,7 +5,7 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     public int thisBox;
-    public int durabillity = 5;
+    public int durabillity = 25;
     public GameObject newBroken;
 
     void Start()
